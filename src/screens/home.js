@@ -1,28 +1,32 @@
 import React from 'react';
 
+import { connect } from 'react-redux';
+
 import HeaderComponent from '../components/header';
-import GaleryList from '../components/galery-list';
+import GaleryList from './galery-list';
 
 import Api from '../utils/api-unsplash';
 
 class HomeScreen extends React.Component {
 
-  state = { photos: [] };
-
   async componentDidMount() {
-    const photos = await Api.getPhotos();
-    this.setState({ photos });
+    const photosList = await Api.getPhotos();
+
+    this.props.dispatch({
+      type: 'SET_PHOTOS_LIST',
+      payload: { photosList }
+    });
   }
 
   render() {
     return(
       <React.Fragment>
         <HeaderComponent navigation={this.props.navigation} />
-        <GaleryList photos={this.state.photos} />
+        <GaleryList />
       </React.Fragment>
     );
   }
 
 }
 
-export default HomeScreen;
+export default connect(null)(HomeScreen);

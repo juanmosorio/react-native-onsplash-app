@@ -10,9 +10,9 @@ const titleApp = 'Onsplash';
 
 class HeaderComponent extends React.Component {
 
-  onPressMenu = () => this.props.navigation.toggleDrawer();
+  // onPressMenu = () => this.props.navigation.toggleDrawer();
 
-  onPressSearch = () => null;
+  // onPressSearch = () => null;
 
   render = () => 
     <View style={styles.container}>

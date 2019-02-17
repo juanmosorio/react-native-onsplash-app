@@ -1,5 +1,6 @@
 import React from 'react';
 import { FlatList } from 'react-native';
+import { connect } from 'react-redux';
 
 import Header from '../components/header';
 import Galery from '../components/galery';
@@ -8,19 +9,16 @@ import Api from '../utils/api-unsplash';
 
 class Explore extends React.Component {
 
-  state = { photos: [] };
-
   async componentWillMount() {
-    const photos = await Api.getPhotosCurated();
-    this.setState({ photos });
+    const curatedList = await Api.getPhotosCurated();
+
+    this.props.dispatch({
+      type: 'SET_CURATED_LIST',
+      payload: { curatedList }
+    });
   }
 
-  _renderGaleryList = ({ item }) => (
-    <Galery
-      navigation={this.props.navigation}
-      { ...item }
-    /> 
-  );
+  _renderGaleryList = ({ item }) => <Galery { ...item } />;
 
   _keyExtractor = item => item.id.toString();
 
@@ -30,7 +28,7 @@ class Explore extends React.Component {
         <Header navigation={null} />
 
           <FlatList
-            data={this.state.photos}
+            data={this.props.curatedList}
             renderItem={this._renderGaleryList}
             keyExtractor = {this._keyExtractor}
           />  
@@ -40,4 +38,10 @@ class Explore extends React.Component {
   }
 }
 
-export default Explore;
+const mapStateToProps = state => {
+  return {
+    curatedList: state.photos.curatedList
+  };
+}
+
+export default connect(mapStateToProps)(Explore);

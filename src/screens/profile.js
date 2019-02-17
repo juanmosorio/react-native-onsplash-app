@@ -187,12 +187,7 @@ class Profile extends React.Component {
     params: { id, title }
   });
 
-  _renderGalery = ({ item }) => (
-    <Galery 
-      navigation={this.props.navigation}
-      { ...item }
-    />
-  );
+  _renderGalery = ({ item }) => <Galery { ...item } />;
 
   _renderCollection = ({ item }) => (
     <Category
