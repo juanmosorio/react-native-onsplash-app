@@ -4,7 +4,7 @@ const API_KEY = '0dd55d4bd79ce713b1fb5932550f64cf3e1575222059444dc5b9a8a0b82f9b9
 class Api {
 
   async getPhotos() {
-    const query = await fetch(`${URL}/photos/?client_id=${API_KEY}&per_page=500`);
+    const query = await fetch(`${URL}/photos/?client_id=${API_KEY}&per_page=10000`);
     const data = await query.json();
     return data;
   }

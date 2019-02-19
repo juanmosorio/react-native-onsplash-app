@@ -76,30 +76,28 @@ const TabBarAppNavigator = createAppContainer(
   )
 );
 
-const RootStack =  createStackNavigator({
-  Main: { 
-    screen: TabBarAppNavigator,
-    navigationOptions: { header: null }
-  },
-  Profile: { 
-    screen: ProfileScreen,
-    navigationOptions: { header: null }
-  },
-  PhotosCollection: {
-    screen: PhotosCollection,
-    navigationOptions: { header: null }
-  }
-});
-
-
-const SwitchNavigator = createSwitchNavigator(
+const RootStack =  createStackNavigator(
   {
-    App: RootStack,
-    Loading: Loading,
+    Main: TabBarAppNavigator,
+    Profile: ProfileScreen,
+    PhotosCollection: PhotosCollection
   },
   {
-    initialRouteName: 'Loading',
+    initialRouteName: 'Main',
+    headerMode: 'none'
   }
-)
+);
+
+
+// const SwitchNavigator = createSwitchNavigator(
+//   {
+//     App: RootStack,
+//     Loading: Loading,
+//   },
+//   {
+//     initialRouteName: 'Loading',
+//     headerMode: 'none'
+//   }
+// )
 
 export default createAppContainer(RootStack);

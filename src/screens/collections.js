@@ -28,13 +28,19 @@ class Collections extends React.Component {
     />
   );
 
-  goToPhotos = ({ id, title }) => this.props.dispatch(
-    NavigationActions.navigate({
-      routeName: 'PhotosCollection',
-      params: { id, title }
-    })
-  );
+  goToPhotos = ({ id, title }) => {
+    this.props.dispatch(
+      NavigationActions.navigate({
+        routeName: 'PhotosCollection',
+        params: { id, title }
+      })
+    );
 
+    this.props.dispatch({
+      type: 'SET_COLLECTION_PHOTOS_LIST',
+      payload: null
+    });
+  }
   render() {
     return (
       <React.Fragment>
