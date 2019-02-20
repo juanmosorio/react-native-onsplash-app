@@ -15,6 +15,8 @@ class GaleryList extends React.Component {
 			data={this.props.photosList}
 	    renderItem={this._renderGalery}
 	    keyExtractor = {this._keyExtractor}
+	    onEndReachedThreshold={0.5}
+	    onEndReached={() => console.warn('ENd')}
 		/>
 	);
 

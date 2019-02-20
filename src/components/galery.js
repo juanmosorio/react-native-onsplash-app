@@ -5,16 +5,17 @@ import  {
   View,
   Image,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from 'react-native';
 import AutoHeightImage from 'react-native-auto-height-image';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import RNFetchBlob from 'rn-fetch-blob';
 
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 
 const { width } = Dimensions.get('window');
-
 
 class Galery extends React.Component {
 
@@ -26,6 +27,31 @@ class Galery extends React.Component {
         params: { username }
       })
     );
+  }
+
+  downloadImage(url){
+    let date = new Date();
+    // let url = "http://www.clker.com/cliparts/B/B/1/E/y/r/marker-pin-google-md.png";
+    let ext = this.extention(url);
+    ext = "."+ext[0];
+    const { config, fs } = RNFetchBlob
+    let PictureDir = fs.dirs.PictureDir
+    let options = {
+      fileCache: true,
+      addAndroidDownloads : {
+        useDownloadManager : true,
+        notification : true,
+        path:  PictureDir + "/onsplash/image_"+Math.floor(date.getTime() + date.getSeconds() / 2)+ext,
+        description : 'Image'
+      }
+    }
+    config(options).fetch('GET', url).then((res) => {
+      Alert.alert("¡Descarga exitosa!");
+    });
+  }
+
+  extention(filename){
+    return (/[.]/.exec(filename)) ? /[^.]+$/.exec(filename) : undefined;
   }
 
   _renderProfile = ({ username, profile_image, name }) => (
@@ -90,13 +116,16 @@ class Galery extends React.Component {
 
             </View>
           </View>
-          <View style={{ justifyContent: 'center' }}>
-            {/* <Icon 
+          <TouchableOpacity
+            style={{ justifyContent: 'center' }}
+            onPress={() => this.downloadImage(urls.full)}
+          >
+            <Icon 
               name="arrow-downward"
               color="#000" 
               size={30} 
-            /> */}
-          </View> 
+            />
+          </TouchableOpacity>
         </View>
       </View>
     );
