@@ -30,14 +30,14 @@ class HomeScreen extends React.Component {
     });
   }
 
-  _keyExtractor = item => item.id.toString();
-
-  _renderGalery = ({ item }) => <Galery { ...item } />;
-
   onEndReached = () => {
     page += 1;
     this.getPhotos();
   }
+  
+  _keyExtractor = item => item.id.toString();
+
+  _renderGalery = ({ item }) => <Galery { ...item } />;
 
   render() {
     return(

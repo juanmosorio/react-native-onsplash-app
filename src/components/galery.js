@@ -20,7 +20,6 @@ const { width } = Dimensions.get('window');
 class Galery extends React.Component {
 
   _goToProfile = username => { 
-    // console.warn(this.props.dispatch)
     this.props.dispatch(
       NavigationActions.navigate({
         routeName: 'Profile',
@@ -31,7 +30,6 @@ class Galery extends React.Component {
 
   downloadImage(url){
     let date = new Date();
-    // let url = "http://www.clker.com/cliparts/B/B/1/E/y/r/marker-pin-google-md.png";
     let ext = this.extention(url);
     ext = "."+ext[0];
     const { config, fs } = RNFetchBlob
@@ -138,7 +136,6 @@ const styles = StyleSheet.create({
     height: 50, 
     justifyContent: 'center',
     paddingHorizontal: 8,
-    // marginVertical: 5
   },
   bodyInfoProfile: {
     flex: 1,

@@ -15,38 +15,38 @@ class Api {
     return data;
   }
 
-  async getUserPhotos(userName){
-    const query = await fetch(`${URL}/users/${userName}/photos/?client_id=${API_KEY}`);
+  async getUserPhotos(userName, page){
+    const query = await fetch(`${URL}/users/${userName}/photos/?client_id=${API_KEY}&per_page=10&page=${page}`);
     const data = await query.json();
     return data;
   }  
 
-  async getUserLikes(userName){
-    const query = await fetch(`${URL}/users/${userName}/likes/?client_id=${API_KEY}`);
+  async getUserLikes(userName, page){
+    const query = await fetch(`${URL}/users/${userName}/likes/?client_id=${API_KEY}&per_page=30&page=${page}`);
     const data = await query.json();
     return data;
   }
 
-  async getUserCollections(userName){
-    const query = await fetch(`${URL}/users/${userName}/collections/?client_id=${API_KEY}`);
+  async getUserCollections(userName, page){
+    const query = await fetch(`${URL}/users/${userName}/collections/?client_id=${API_KEY}&per_page=30&page=${page}`);
     const data = await query.json();
     return data;
   } 
 
-  async getCollections() {
-    const query = await fetch(`${URL}/collections/?client_id=${API_KEY}&per_page=500`);
+  async getCollections(page) {
+    const query = await fetch(`${URL}/collections/?client_id=${API_KEY}&per_page=30&page=${page}`);
     const data = await query.json();
     return data;
   }
 
-  async getCollectionPhotos(id) {
-    const query = await fetch(`${URL}/collections/${id}/photos/?client_id=${API_KEY}&per_page=500`);
+  async getCollectionPhotos(id, page) {
+    const query = await fetch(`${URL}/collections/${id}/photos/?client_id=${API_KEY}&per_page=30&page=${page}`);
     const data = await query.json();
     return data;
   }
 
-  async getPhotosCurated() { 
-    const query = await fetch(`${URL}/photos/curated/?client_id=${API_KEY}&per_page=500`);
+  async getPhotosCurated(page) { 
+    const query = await fetch(`${URL}/photos/curated/?client_id=${API_KEY}&per_page=30&page=${page}`);
     const data = await query.json();
     return data;
   }

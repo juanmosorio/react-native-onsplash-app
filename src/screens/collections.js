@@ -8,15 +8,32 @@ import Header from '../components/header';
 import Api from '../utils/api-unsplash';
 import Category from '../components/category';
 
+let page = 1;
+
 class Collections extends React.Component {
 
   async componentWillMount() {
-    const collectionsList = await Api.getCollections();
+    const collectionsList = await Api.getCollections(page);
     
     this.props.dispatch({
       type: 'SET_COLLECTIONS_LIST',
       payload: { collectionsList }
     });
+  }
+
+  async getPhotos() {
+    let newCollectionsList = await Api.getCollections(page);
+    let collectionsList = this.props.collectionsList.concat(newCollectionsList);
+
+    this.props.dispatch({
+      type: 'SET_COLLECTIONS_LIST',
+      payload: { collectionsList }
+    });
+  }
+
+  onEndReached = () => {
+    page += 1;
+    this.getPhotos();
   }
 
   keyExtractor = item => item.id.toString();
@@ -35,12 +52,8 @@ class Collections extends React.Component {
         params: { id, title }
       })
     );
-
-    this.props.dispatch({
-      type: 'SET_COLLECTION_PHOTOS_LIST',
-      payload: null
-    });
   }
+  
   render() {
     return (
       <React.Fragment>
@@ -49,6 +62,8 @@ class Collections extends React.Component {
           data={this.props.collectionsList}
           renderItem={this._renderItem}
           keyExtractor={this.keyExtractor}
+          onEndReachedThreshold={0.5}
+          onEndReached={this.onEndReached}
         />
         {/* <Galery photos={ this.state.photos } /> */}
       </React.Fragment>

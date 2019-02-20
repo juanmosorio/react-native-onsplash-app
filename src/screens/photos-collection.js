@@ -7,6 +7,8 @@ import Galery from '../components/galery';
 
 import Api from '../utils/api-unsplash';
 
+let page = 1;
+
 class PhotosCollection extends React.Component {
 
   onBackPress = () => this.props.navigation.goBack();
@@ -14,7 +16,7 @@ class PhotosCollection extends React.Component {
   async componentWillMount() {
     const { id } = this.props.navigation.state.params;
 
-    const collectionPhotosList = await Api.getCollectionPhotos(id);
+    const collectionPhotosList = await Api.getCollectionPhotos(id, page);
 
     this.props.dispatch({
       type: 'SET_COLLECTION_PHOTOS_LIST',
@@ -22,6 +24,22 @@ class PhotosCollection extends React.Component {
     });
 
     BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+  }
+
+  async getPhotos() {
+    const { id } = this.props.navigation.state.params;
+    const newCollectionPhotosList = await Api.getCollectionPhotos(id, page);
+    let collectionPhotosList = this.props.collectionPhotosList.concat(newCollectionPhotosList);
+
+    this.props.dispatch({
+      type: 'SET_COLLECTION_PHOTOS_LIST',
+      payload: { collectionPhotosList }
+    });
+  }
+
+  onEndReached = () => {
+    page += 1;
+    this.getPhotos();
   }
 
   componentWillUnmount = () => BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
@@ -42,6 +60,8 @@ class PhotosCollection extends React.Component {
           data={this.props.collectionPhotosList}
           renderItem={this._renderGaleryList}
           keyExtractor = {this._keyExtractor}
+          onEndReachedThreshold={0.5}    
+          onEndReached={this.onEndReached}
         /> 
       </React.Fragment>
     );
